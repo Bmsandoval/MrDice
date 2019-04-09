@@ -15,8 +15,9 @@ func PlayGame() {
 	// Setup Game
 	group := game.CreateGroup(PlayerCount)
 
-	// Select a random starting player for round 1' playerOne
-	startingPlayer := rand.Intn(PlayerCount)
+	// Select a random starting player for round 1's playerOne
+
+	startingPlayer := rand.Intn(3)
 	// Track the hiscore to find the winners
 	var bestScore = 100
 	for r := 0; r < RoundCount; r++ {
@@ -113,7 +114,8 @@ func selectDice(dice []int) []int {
 	var lowestDie int
 	for _, die := range dice {
 		// Let's prefer potential scores of 0 or 1
-		if die == 2 {
+		if die >= 2 {
+			lowestDie = die
 			break
 		}
 		selected = append(selected, die)
@@ -124,3 +126,4 @@ func selectDice(dice []int) []int {
 	}
 	return selected
 }
+
