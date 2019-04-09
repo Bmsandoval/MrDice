@@ -19,7 +19,6 @@ func PlayGame() {
 
 	startingPlayer := rand.Intn(3)
 	// Track the hiscore to find the winners
-	var bestScore = 100
 	for r := 1; r <= RoundCount; r++ {
 		// Each player gets to be playerOne once during a game
 		playerID := (startingPlayer+r)%PlayerCount
@@ -29,19 +28,22 @@ func PlayGame() {
 			r,
 			winningPlayers)
 	}
+
+	var bestScore = 100
 	var winners []int
 	for playerID,player := range group.Players {
 		if player.Points < bestScore {
 			// track the winner
-			winners = winners[:1]
-			winners[0] = playerID
-			bestScore = player.Points
-		} else {
+			winners = winners[:0]
+			bestScore = player.RoundPoints
+			winners = append(winners, playerID)
+		} else if player.RoundPoints == bestScore {
 			// handle ties
 			winners = append(winners, playerID)
 		}
 	}
-	fmt.Printf("With %v points, the winner(s) of round %v are %v\n",
+	fmt.Println("Game Over!")
+	fmt.Printf("With %v points, the winner(s) are %v\n",
 		group.Players[winners[0]].Points,
 		winners)
 
@@ -72,6 +74,7 @@ func PlaySingleRound(playerOne int, group game.Group) []int {
 			selectedDice := selectDice(dice)
 			fmt.Printf("player %v rolled %v and kept %v\n", playerID, dice, selectedDice)
 			player.SaveDice(selectedDice)
+			player.UpdateTotal()
 		}
 		player.RoundPoints = player.SavedDice.Tally()
 		if player.RoundPoints < bestScore {
