@@ -20,7 +20,7 @@ func PlayGame() {
 	startingPlayer := rand.Intn(3)
 	// Track the hiscore to find the winners
 	var bestScore = 100
-	for r := 0; r < RoundCount; r++ {
+	for r := 1; r <= RoundCount; r++ {
 		// Each player gets to be playerOne once during a game
 		playerID := (startingPlayer+r)%PlayerCount
 		winningPlayers := PlaySingleRound(playerID, group)
@@ -114,11 +114,12 @@ func selectDice(dice []int) []int {
 	var lowestDie int
 	for _, die := range dice {
 		// Let's prefer potential scores of 0 or 1
-		if die >= 2 {
+		if die == 1 || die == 4 {
+			selected = append(selected, die)
+		} else {
 			lowestDie = die
 			break
 		}
-		selected = append(selected, die)
 	}
 	// Select at least one die each roll
 	if len(selected) == 0 {
