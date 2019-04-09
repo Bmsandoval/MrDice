@@ -1,9 +1,5 @@
 package game
 
-import (
-	"math/rand"
-)
-
 const DieCount = 5
 // Store data about each player
 type Player struct {
@@ -23,30 +19,6 @@ func (p Player) RollableDice() int {
 	return rollableDie
 }
 
-
-
-/**
-For given player, roll all remaining unrolled dice
- */
-func (p Player) RollDice() []int {
-	// Count remaining rollable dice
-	rollableDie := p.RollableDice()
-	if rollableDie == 0 {
-		return nil
-	}
-
-	// Roll all unrolled dice for player
-	var dice []int
-	for i := 1; i<= rollableDie; i++ {
-		// Roll d6
-		die := rand.Intn(6 - 1) + 1
-		dice = append(dice, die)
-	}
-
-	// Return array of rolled dice
-	return dice
-}
-
 /**
 Save one die for player P
  */
@@ -57,6 +29,19 @@ func (p *Player) SaveDice(dice []int) {
 		}
 		p.SavedDice.dice = append(p.SavedDice.dice, die)
 	}
+	return
+}
+
+/**
+Save one die for player P
+ */
+func (p *Player) ResetDice() {
+	p.SavedDice.dice = p.SavedDice.dice[:0]
+	return
+}
+
+func (p *Player) SaveRoundPoints(points int) {
+	p.RoundPoints = points
 	return
 }
 

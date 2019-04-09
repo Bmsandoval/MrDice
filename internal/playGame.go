@@ -35,16 +35,16 @@ func PlayGame() {
 		if player.Points < bestScore {
 			// track the winner
 			winners = winners[:0]
-			bestScore = player.RoundPoints
+			bestScore = player.Points
 			winners = append(winners, playerID)
-		} else if player.RoundPoints == bestScore {
+		} else if player.Points == bestScore {
 			// handle ties
 			winners = append(winners, playerID)
 		}
 	}
 	fmt.Println("Game Over!")
 	fmt.Printf("With %v points, the winner(s) are %v\n",
-		group.Players[winners[0]].Points,
+		bestScore,
 		winners)
 
 	// Lowest score of each round wins, but the final winner is who matters
@@ -64,19 +64,24 @@ func PlaySingleRound(playerOne int, group game.Group) []int {
 		playerID := (playerOne+p)%PlayerCount
 
 		player := group.Players[playerID]
+		player.RoundPoints = 0
 		for t:=0; t < maxTurns; t++ {
 			// Stop if player has saved all their dice
 			if player.RollableDice() == 0 {
 				break
 			}
 			// Otherwise roll available dice
-			dice := player.RollDice()
+			dice := RollDice(player)
 			selectedDice := selectDice(dice)
-			fmt.Printf("player %v rolled %v and kept %v\n", playerID, dice, selectedDice)
 			player.SaveDice(selectedDice)
-			player.UpdateTotal()
+			fmt.Printf("player %v rolled %v and kept %v\n", playerID, dice, selectedDice)
 		}
 		player.RoundPoints = player.SavedDice.Tally()
+		player.ResetDice()
+		fmt.Println(group.Players[playerID])
+		player.UpdateTotal()
+		group.Players[playerID] = player
+		fmt.Println(group.Players[playerID])
 		if player.RoundPoints < bestScore {
 			// track the winner
 			winners = winners[:0]
@@ -129,5 +134,27 @@ func selectDice(dice []int) []int {
 		selected = append(selected, lowestDie)
 	}
 	return selected
+}
+
+/**
+For given player, roll all remaining unrolled dice
+ */
+func RollDice(p game.Player) []int {
+	// Count remaining rollable dice
+	rollableDie := p.RollableDice()
+	if rollableDie == 0 {
+		return nil
+	}
+
+	// Roll all unrolled dice for player
+	var dice []int
+	for i := 1; i<= rollableDie; i++ {
+		// Roll d6
+		die := rand.Intn(6 - 1) + 1
+		dice = append(dice, die)
+	}
+
+	// Return array of rolled dice
+	return dice
 }
 

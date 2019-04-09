@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	internal.PlayGame()
 }
