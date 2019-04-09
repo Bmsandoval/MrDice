@@ -1,5 +1,10 @@
 package game
 
+import (
+	"math/rand"
+	"time"
+)
+
 const DieCount = 5
 // Store data about each player
 type Player struct {
@@ -17,6 +22,29 @@ func (p Player) RollableDice() int {
 	dieCount := len(p.SavedDice.dice)
 	rollableDie := DieCount - dieCount
 	return rollableDie
+}
+
+/**
+For given player, roll all remaining unrolled dice
+ */
+func (p *Player) RollDice() []int {
+	rand.Seed(time.Now().UnixNano())
+	// Count remaining rollable dice
+	rollableDie := p.RollableDice()
+	if rollableDie == 0 {
+		return nil
+	}
+
+	// Roll all unrolled dice for player
+	var dice []int
+	for i := 1; i<= rollableDie; i++ {
+		// Roll d6
+		die := rand.Intn(6 - 1) + 1
+		dice = append(dice, die)
+	}
+
+	// Return array of rolled dice
+	return dice
 }
 
 /**

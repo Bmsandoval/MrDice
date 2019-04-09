@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
+	"time"
 )
 
 const PlayerCount = 4
@@ -17,6 +18,7 @@ func PlayGame() {
 
 	// Select a random starting player for round 1's playerOne
 
+	rand.Seed(time.Now().UnixNano())
 	startingPlayer := rand.Intn(3)
 	// Track the hiscore to find the winners
 	for r := 1; r <= RoundCount; r++ {
@@ -71,17 +73,15 @@ func PlaySingleRound(playerOne int, group game.Group) []int {
 				break
 			}
 			// Otherwise roll available dice
-			dice := RollDice(player)
+			dice := player.RollDice()
 			selectedDice := selectDice(dice)
 			player.SaveDice(selectedDice)
 			fmt.Printf("player %v rolled %v and kept %v\n", playerID, dice, selectedDice)
 		}
 		player.RoundPoints = player.SavedDice.Tally()
 		player.ResetDice()
-		fmt.Println(group.Players[playerID])
 		player.UpdateTotal()
 		group.Players[playerID] = player
-		fmt.Println(group.Players[playerID])
 		if player.RoundPoints < bestScore {
 			// track the winner
 			winners = winners[:0]
@@ -134,27 +134,5 @@ func selectDice(dice []int) []int {
 		selected = append(selected, lowestDie)
 	}
 	return selected
-}
-
-/**
-For given player, roll all remaining unrolled dice
- */
-func RollDice(p game.Player) []int {
-	// Count remaining rollable dice
-	rollableDie := p.RollableDice()
-	if rollableDie == 0 {
-		return nil
-	}
-
-	// Roll all unrolled dice for player
-	var dice []int
-	for i := 1; i<= rollableDie; i++ {
-		// Roll d6
-		die := rand.Intn(6 - 1) + 1
-		dice = append(dice, die)
-	}
-
-	// Return array of rolled dice
-	return dice
 }
 
