@@ -12,12 +12,14 @@ const PlayerCount = 4
 const RoundCount = 4
 const DiceCount = 5
 
+/**
+Play a game of dice
+ */
 func PlayGame() {
 	// Setup Game
 	group := game.CreateGroup(PlayerCount)
 
 	// Select a random starting player for round 1's playerOne
-
 	rand.Seed(time.Now().UnixNano())
 	startingPlayer := rand.Intn(3)
 	// Track the hiscore to find the winners
@@ -31,7 +33,7 @@ func PlayGame() {
 			winningPlayers)
 	}
 
-	var bestScore = 100
+	var bestScore = 120
 	var winners []int
 	for playerID,player := range group.Players {
 		if player.Points < bestScore {
@@ -44,13 +46,13 @@ func PlayGame() {
 			winners = append(winners, playerID)
 		}
 	}
+
 	fmt.Println("Game Over!")
+	// Lowest score of each round wins, but the final winner is who matters
+	// Return winning player and score
 	fmt.Printf("With %v points, the winner(s) are %v\n",
 		bestScore,
 		winners)
-
-	// Lowest score of each round wins, but the final winner is who matters
-	// Return winning player and score
 	return
 }
 /*
@@ -59,7 +61,7 @@ Returns ids of winning players
  */
 func PlaySingleRound(playerOne int, group game.Group) []int {
 	maxTurns := DiceCount
-	var bestScore = 100
+	var bestScore = 30
 	var winners []int
 	for p := 0; p < PlayerCount; p++ {
 		// Map rolling starting player to an array index
