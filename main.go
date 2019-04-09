@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
+	"MrDice/internal"
 )
 
 func main() {
-	log.Printf("MAIN")
+	internal.PlayGame()
 }

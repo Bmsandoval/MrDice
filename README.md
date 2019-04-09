@@ -21,6 +21,9 @@ discretion​ ​ (She​ ​ can​ ​ stop​ ​ on​ ​ her​ ​ first�
 ● Those​ ​ dice​ ​ which​ ​ are​ ​ not​ ​ kept​ ​ are​ ​ rolled​ ​ again​ ​ and​ ​ each​ ​ round​ ​ she​ ​ must​ ​ keep​ ​ at​ ​ least​ ​ one
 more​ ​ until​ ​ all​ ​ the​ ​ dice​ ​ are​ ​ out.
 ● Once​ ​ each​ ​ player​ ​ has​ ​ rolled​ ​ the​ ​ player​ ​ who​ ​ scored​ ​ the​ ​ lowest​ ​ wins.
+
+
+
 ● Repeat​ ​ for​ ​ three​ ​ more​ ​ rounds​ ​ in​ ​ succession​ ​ so​ ​ that​ ​ the​ ​ next​ ​ person​ ​ starts​ ​ rolling​ ​ first​ ​ (at
 the​ ​ end​ ​ each​ ​ player​ ​ will​ ​ have​ ​ started).
 

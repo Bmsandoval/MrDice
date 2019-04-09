@@ -1,51 +1,68 @@
 package game
 
 import (
-	"MrDice/pkg"
+	"math/rand"
 )
 
-const MaxDieCount = 5
+const DieCount = 5
 // Store data about each player
 type Player struct {
 	playerNumber int
-	savedDice [MaxDieCount]int
-	points int
+	SavedDice Dice
+	RoundPoints int
+	Points int
 }
 
 /**
 Return count of rollable dice
  */
-func (p Player) rollableDice() int {
+func (p Player) RollableDice() int {
 	// Count rollable dice
-	dieCount := len(p.savedDice)
-	rollableDie := MaxDieCount - dieCount
+	dieCount := len(p.SavedDice.dice)
+	rollableDie := DieCount - dieCount
 	return rollableDie
 }
 
-func (p Player) rollDice() []int {
+/**
+For given player, roll all remaining unrolled dice
+ */
+func (p Player) RollDice() []int {
+	// Count remaining rollable dice
+	rollableDie := p.RollableDice()
+	if rollableDie == 0 {
+		return nil
+	}
 
 	// Roll all unrolled dice for player
+	var dice []int
+	for i := 1; i<= rollableDie; i++ {
+		// Roll d6
+		die := rand.Intn(6)+1
+		dice = append(dice, die)
+	}
+
 	// Return array of rolled dice
-	return nil
+	return dice
 }
 
-func (p Player) saveDie(die int) error {
-	if die < 1 || die > 6 {
-		return pkg.Throw("Dice value out of range")
+/**
+Save one die for player P
+ */
+func (p *Player) SaveDice(dice []int) {
+	for _, die:= range dice {
+		if die < 1 || die > 6 {
+			panic("Dice value out of range")
+		}
+		p.SavedDice.dice = append(p.SavedDice.dice, die)
 	}
-	savableCount := p.rollableDice()
-	if savableCount < 1 {
-		return pkg.Throw("Out of rolls")
-	}
-	return nil
+	return
 }
 
-func (p Player) scoreRound() error {
-	savableCount := p.rollableDice()
-	if savableCount > 0 {
-		return pkg.Throw("More dice to roll")
-	}
-	// Tally score and save
-	return nil
+/**
+Save players score, tallying their dice for this round
+ */
+func (p *Player) UpdateTotal() {
+	p.Points += p.RoundPoints
+	return
 }
 
