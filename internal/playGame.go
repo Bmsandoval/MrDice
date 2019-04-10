@@ -21,7 +21,7 @@ func PlayGame() {
 
 	// Select a random starting player for round 1's playerOne
 	rand.Seed(time.Now().UnixNano())
-	startingPlayer := rand.Intn(3)
+	startingPlayer := rand.Intn(4)
 	// Track the hiscore to find the winners
 	for r := 1; r <= RoundCount; r++ {
 		// Each player gets to be playerOne once during a game
