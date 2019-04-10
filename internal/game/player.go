@@ -39,7 +39,7 @@ func (p *Player) RollDice() []int {
 	var dice []int
 	for i := 1; i<= rollableDie; i++ {
 		// Roll d6
-		die := rand.Intn(6 - 1) + 1
+		die := rand.Intn(6) + 1
 		dice = append(dice, die)
 	}
 
